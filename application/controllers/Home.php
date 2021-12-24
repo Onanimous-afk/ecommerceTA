@@ -11,10 +11,98 @@
  	}
  	public function index()
  	{
- 		$this->load->view('header');
- 		$this->load->view('fp/home');
+		$userid = $this->session->userdata('id_user');
+		$twentyproduct = $this->FPModel->gettwentyproduct();
+		$dataeight1 = array();
+		$dataeight2 = array();
+		$count = 1;
+		foreach($twentyproduct as $item)
+		{
+			if($dataeight1 != null)
+			{				
+				$myFlag = $item['id_product'];
+				$target = array_filter($dataeight1, function($elem) use($myFlag){
+						return $elem['id_product'] === $myFlag;
+					});
+				$target2 = array_filter($dataeight2, function($elem) use($myFlag){
+					return $elem['id_product'] === $myFlag;
+				});
+
+				// print_r($target);
+				$twenty = array();
+				if($target == null && $count <=4)
+				{
+					// print_r($key);die();
+					// print_r($key);die();
+					$twenty = array(
+						'id_product'=>$item['id_product'],
+						'product_name'=>$item['product_name'],
+						'price'=>$item['price'],
+						'pictures'=>$item['pictures']
+					);
+					
+					array_push($dataeight1,$twenty);
+					$count++;
+					// var_dump($dataeight1);die();
+				}
+				else if($target2 == null && $target == null && $count <=8){
+					$twenty = array(
+						'id_product'=>$item['id_product'],
+						'product_name'=>$item['product_name'],
+						'price'=>$item['price'],
+						'pictures'=>$item['pictures']
+					);
+					
+					array_push($dataeight2,$twenty);
+					$count++;
+					// var_dump($dataeight1);die();
+				}
+			}else{
+				$twenty = array(
+					'id_product'=>$item['id_product'],
+					'product_name'=>$item['product_name'],
+					'price'=>$item['price'],
+					'pictures'=>$item['pictures']
+				);
+				
+				array_push($dataeight1,$twenty);
+				$count++;
+			}
+			
+		}
+		// var_dump($dataeight2);die();
+		//get best seller jangan lupa
+		
+		// if($userid == "")
+		// {
+		// 	$datacart = 0;
+		// }else{
+		// 	$datacart = $this->FPModel->getcartbyuserid($userid);
+		// }
+		$datacart = $this->FPModel->getcartbyuserid($userid);
+		$data['cartnotif'] = count($datacart);
+		$data['cart'] = $datacart;
+		$data['dataeight1'] = $dataeight1;
+		$data['dataeight2'] = $dataeight2;
+ 		$this->load->view('header',$data);
+ 		$this->load->view('fp/home',$data);
  		$this->load->view('footer');
  	}
+	public function detail_product($id)
+	{
+		$userid = $this->session->userdata('id_user');
+		$data['detail'] = $this->FPModel->getproductbyId($id);
+		$data['detailproductjson'] = json_encode($this->FPModel->getdetailproductbyId($id));
+		// $data['detailproduct'] = $this->FPModel->getdetailproductbyId($id);
+		$data['images'] = $this->FPModel->getproductimagesbyId($id);
+		//get best seller jangan lupa
+		$datacart = $this->FPModel->getcartbyuserid($userid);
+		$data['cartnotif'] = count($datacart);
+		$data['cart'] = $datacart;
+		$this->load->view('header',$data);
+ 		$this->load->view('fp/detail_product',$data);
+ 		$this->load->view('footer');
+	}
  	public function slipgaji()
  	{
  		$this->load->view('header');

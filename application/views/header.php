@@ -13,17 +13,30 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/animate.css">
     <!-- owl carousel CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/lightslider.min.css">
     <!-- font awesome CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/all.css">
     <!-- flaticon CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/flaticon.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/themify-icons.css">
+    <!-- <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/nice-select.css"> -->
     <!-- font awesome CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/magnific-popup.css">
     <!-- swiper CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assetfp/css/style.css">
+    <style>
+      .notif .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 0.1vw 0.1vw;
+        border-radius: 50%;
+        background: #f13d80;
+        color: white;
+      }
+    </style>
 </head>
 
 <body>
@@ -33,7 +46,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.html"> <img src="<?php echo base_url();?>assetfp/img/logo.png" alt="logo"> </a>
+                        <a class="navbar-brand" href="<?php echo base_url();?>"> <img src="<?php echo base_url();?>assetfp/img/logo.png" alt="logo"> </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +56,7 @@
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="<?php echo base_url();?>">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
@@ -52,7 +65,6 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" href="category.html"> shop category</a>
-                                        <a class="dropdown-item" href="single-product.html">product details</a>
                                         
                                     </div>
                                 </li>
@@ -62,25 +74,11 @@
                                         pages
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="login.html"> login</a>
-                                        <a class="dropdown-item" href="tracking.html">tracking</a>
                                         <a class="dropdown-item" href="checkout.html">product checkout</a>
                                         <a class="dropdown-item" href="cart.html">shopping cart</a>
                                         <a class="dropdown-item" href="confirmation.html">confirmation</a>
-                                        <a class="dropdown-item" href="elements.html">elements</a>
                                     </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
-                                
+                                </li>                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="contact.html">Contact</a>
                                 </li>
@@ -100,13 +98,15 @@
                             <div class="dropdown cart">
                                 <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cart-plus"></i>
+                                    <i class="fas fa-cart-plus notif">
+                                    <span class="badge"><?php echo $cartnotif?></span>
+                                    </i>
                                 </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <div class="single_product">
-    
+
                                     </div>
-                                </div> -->
+                                </div>
                                 
                             </div>
                         </div>

@@ -36,11 +36,12 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="<?php echo base_url();?>assetfp/js/jquery.magnific-popup.js"></script>
     <!-- swiper js -->
     <script src="<?php echo base_url();?>assetfp/js/swiper.min.js"></script>
+    <script src="<?php echo base_url();?>assetfp/js/lightslider.min.js"></script>
     <!-- swiper js -->
     <script src="<?php echo base_url();?>assetfp/js/masonry.pkgd.js"></script>
     <!-- particles js -->
     <script src="<?php echo base_url();?>assetfp/js/owl.carousel.min.js"></script>
-    <script src="<?php echo base_url();?>assetfp/js/jquery.nice-select.min.js"></script>
+    <!-- <script src="<?php echo base_url();?>assetfp/js/jquery.nice-select.min.js"></script> -->
     <!-- slick js -->
     <script src="<?php echo base_url();?>assetfp/js/slick.min.js"></script>
     <script src="<?php echo base_url();?>assetfp/js/jquery.counterup.min.js"></script>
