@@ -102,7 +102,7 @@
                                             <div class="single_product_text">
                                                 <a style="visibility: visible !important;opacity: 1 !important;" href="<?php echo base_url();?>Home/detail_product/<?php echo $item['id_product']?>"><h4><?php echo $item['product_name']?></h4></a>
                                                     <h5>Start from Rp.<?php echo $item['price']?></h5>
-                                                <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                                <a href="<?php echo base_url();?>Home/detail_product/<?php echo $item['id_product']?>" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                             <div class="single_product_text">
                                                 <a style="visibility: visible !important;opacity: 1 !important;" href="<?php echo base_url();?>Home/detail_product/<?php echo $item['id_product']?>"><h4><?php echo $item['product_name']?></h4></a>
                                                     <h5>Start from Rp.<?php echo $item['price']?></h5>
-                                                <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                                <a href="<?php echo base_url();?>Home/detail_product/<?php echo $item['id_product']?>" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                             </div>
                                         </div>
                                     </div>

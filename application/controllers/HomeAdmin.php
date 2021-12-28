@@ -27,14 +27,17 @@
 
 		$date = new dateTime('now', new DateTimeZone('Asia/Jakarta'));
 		$date_format = $date->format('Y-m-d');
-		$data['orderhariini'] = $this->OrderModel->hitungorderhariini($date_format);
+		// $data['orderhariini'] = $this->OrderModel->hitungorderhariini($date_format);
 		// $lastDateOfMonth = date("Y-m-t", strtotime($date_format));
 		// $bulan = $date->format('m');
 		// $tahun = $date->format('Y');
 
 		// $data['jumuserlemburall']= $this->LemburModel->getjumuserlembur($date_format,$lastDateOfMonth);
+		$ordermasuktoday = $this->OrderModel->getordertoday();
+		$orderneedconfirm = $this->OrderModel->getorderneedconfirm();
 
-		// $data['jumusersudahdinilai'] = $this->PenilaianModel->getjumpenilaianuser($bulan,$tahun);
+		$data['jumordermasuktoday'] = count($ordermasuktoday);
+		$data['jumorderneedconfirm'] = count($orderneedconfirm);
 
  		$this->load->view('headerAdmin');
  		$this->load->view('mainAdmin',$data);

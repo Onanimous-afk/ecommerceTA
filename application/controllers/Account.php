@@ -20,7 +20,25 @@ class Account extends CI_Controller {
 	*/
 	public function login()
 	{
-		$this->load->view('header');
+		$userid = $this->session->userdata('id_user');
+		$datacartreal = array();
+		$datacart = $this->FPModel->getcartbyuserid($userid);
+		foreach($datacart as $item)
+		{
+			$datapic = $this->FPModel->getsingleproductimagesbyId($item['id_detail_produk']);
+			$totalprice = "Rp " . number_format($item['total_price'],2,',','.');
+			$arr = array(
+				"id_product" => $datapic['id_product'],
+				"pictures" => $datapic['pictures'],
+				"product_name"=>$datapic['product_name'],
+				"total_price"=>$totalprice,
+				"qty"=>$item['qtycart']
+			);
+			array_push($datacartreal,$arr);
+		}
+		$data['cartnotif'] = count($datacart);
+		$data['cart'] = $datacartreal;
+		$this->load->view('header',$data);
 		$this->load->view('login');
 	}
 	public function register()
@@ -88,6 +106,150 @@ class Account extends CI_Controller {
 			$this->session->set_flashdata('alert', 'Berhasil registrasi akun');
 			redirect('Account/Login');
 		}
+	}
+	public function profile()
+	{		 
+		$userid = $this->session->userdata('id_user');
+		$datacartreal = array();
+		$datacart = $this->FPModel->getcartbyuserid($userid);
+		foreach($datacart as $item)
+		{
+			$datapic = $this->FPModel->getsingleproductimagesbyId($item['id_detail_produk']);
+			$totalprice = "Rp " . number_format($item['total_price'],2,',','.');
+			$price = "Rp " . number_format($item['price'],2,',','.');
+			$arr = array(
+				"id_cart" => $item['id_cart'],
+				"id_product" => $datapic['id_product'],
+				"id_produk_detail" => $datapic['id_produk_detail'],
+				"pictures" => $datapic['pictures'],
+				"product_name"=>$datapic['product_name'],
+				"total_price"=>$totalprice,
+				"total"=>$price,
+				"total_price_real"=>$item['total_price'],
+				"price_real"=>$item['price'],
+				"qty"=>$item['qtycart'],
+				"qty_real"=>$item['qty'],
+				"color"=>$item['color_name'],
+				"size"=>$item['size_name']
+			);
+			array_push($datacartreal,$arr);
+		}
+		$dataalamat = $this->FPModel->getaddressbyuserId($userid);
+		$data['cartnotif'] = count($datacart);
+		$data['cart'] = $datacartreal;
+		$data['alamat'] = $dataalamat;
+
+		$this->load->view('header',$data);
+		$this->load->view('fp/profile',$data);
+		$this->load->view('footer');
+	}
+	public function addaddress(){
+		$userid = $this->session->userdata('id_user');
+		$tag_address = $this->input->post('tag_address');
+		$fullname = $this->input->post('fullname');
+		$phone = $this->input->post('phone');
+		$province = $this->input->post('province');
+		$city = $this->input->post('city');
+		$zipcode = $this->input->post('zipcode');
+		$address = $this->input->post('address');
+		$is_default = $this->input->post('default_checkbox');
+		// print_r($is_default);die();
+		if($is_default == 'on')
+		{
+			$is_default = 1;
+		}
+		else{
+			$is_default = 0;
+		}
+		$data = array(
+			"id_user"=> $userid,
+			"tag_address"=> $tag_address,
+			"fullname"=> $fullname,
+			"phone"=> $phone,
+			"id_province"=> $province,
+			"id_city"=> $city,
+			"address"=> $address,
+			"zipcode"=> $zipcode,
+			"is_default"=> $is_default
+		);
+		$this->FPModel->insertaddress($data);
+
+		redirect('Account/Profile');
+
+	}
+	public function updateaddress()
+	{
+		$userid = $this->session->userdata('id_user');
+		$id_address = $this->input->post('id_address');
+		$tag_address = $this->input->post('tag_address_edit');
+		$fullname = $this->input->post('fullname_edit');
+		$phone = $this->input->post('phone_edit');
+		$province = $this->input->post('province_edit');
+		$city = $this->input->post('city_edit');
+		$zipcode = $this->input->post('zipcode_edit');
+		$address = $this->input->post('address_edit');
+		$is_default = $this->input->post('default_checkbox_edit');
+		// print_r($is_default);die();
+		if($is_default == 'on')
+		{
+			$is_default = 1;
+		}
+		else{
+			$is_default = 0;
+		}
+		$this->FPModel->updateaddress($id_address,$tag_address,$fullname,$phone,$province,$city,$zipcode,$address,$is_default);
+
+	redirect('Account/Profile');
+	}
+	public function updateisdefaultaddress(){
+
+		$userid = $this->session->userdata('id_user');
+		$id = $this->input->post('id_address');
+		$this->FPModel->updateisdefaultaddress($id,$userid);
+
+		echo "success";
+	}
+	public function getdetailaddress()
+	{
+		$id = $this->input->post('id_address');
+		$data = $this->FPModel->getaddressbyId($id);
+		echo json_encode($data);
+	}
+	public function history_order()
+	{
+		$userid = $this->session->userdata('id_user');
+		$datacartreal = array();
+		$datacart = $this->FPModel->getcartbyuserid($userid);
+		foreach($datacart as $item)
+		{
+			$datapic = $this->FPModel->getsingleproductimagesbyId($item['id_detail_produk']);
+			$totalprice = "Rp " . number_format($item['total_price'],2,',','.');
+			$price = "Rp " . number_format($item['price'],2,',','.');
+			$arr = array(
+				"id_cart" => $item['id_cart'],
+				"id_product" => $datapic['id_product'],
+				"id_produk_detail" => $datapic['id_produk_detail'],
+				"pictures" => $datapic['pictures'],
+				"product_name"=>$datapic['product_name'],
+				"total_price"=>$totalprice,
+				"total"=>$price,
+				"total_price_real"=>$item['total_price'],
+				"price_real"=>$item['price'],
+				"qty"=>$item['qtycart'],
+				"qty_real"=>$item['qty'],
+				"color"=>$item['color_name'],
+				"size"=>$item['size_name']
+			);
+			array_push($datacartreal,$arr);
+		}
+		$data['cartnotif'] = count($datacart);
+		$data['cart'] = $datacartreal;
+		$dataorder = $this->FPModel->getListorder($userid);
+		$data['order'] = $dataorder;
+
+		$this->load->view('header',$data);
+		$this->load->view('fp/history',$data);
+		$this->load->view('footer');
 	}
 	public function logout()
 	{

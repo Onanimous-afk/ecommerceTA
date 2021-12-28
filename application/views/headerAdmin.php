@@ -204,8 +204,8 @@
               </a>
               <ul class="site-menu-sub">
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="<?= base_url('Lembur/index')?>">
-                    <span class="site-menu-title">List Confirm Order</span>
+                  <a class="animsition-link" href="<?= base_url('OrderAdmin/index')?>">
+                    <span class="site-menu-title">List Order</span>
                   </a>
                 </li>
               </ul>

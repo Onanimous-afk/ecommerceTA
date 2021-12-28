@@ -52,7 +52,8 @@
               </li>
             </ul>
             <h2 id="price"></h2>
-            <input type="hidden" value="1" min="1" id="pricereal" name="pricereal">
+            <input type="hidden" value="1" min="1" id="total" name="total">
+            <input type="hidden" value="1" min="1" id="priceori" name="priceori">
             <p>
               <?php echo $detail['short_description']?>
             </p>
@@ -60,7 +61,7 @@
                 <label style="color:red;font-size:8pt;" id="maksqty1">Maks.pembelian barang ini <label style="color:red;font-size:8pt;" id="maksqty"></label> item kurangi pembelianmu, ya!</label>
             </div>
             
-            <div class="card_area d-flex justify-content-between align-items-center">
+            <div class="card_area d-flex justify-content-between align-items-center" id="btncart" style="display:marker">
               <div class="product_count">
                 <!-- <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
                 <input class="input-number" onkeyup="getqtyhargajumorder()" type="number" value="1" min="1" max="0" id="jumorder" name="jumorder">
@@ -68,6 +69,15 @@
               </div>
               
               <button class="btn_3" onclick="addtocart()">add to cart</button>
+              <!-- <a href="#" class="btn_3">add to cart</a> -->
+              <!-- <a href="#" class="like_us"> <i class="ti-heart"></i> </a> -->
+            </div>
+            <div class="card_area d-flex justify-content-between align-items-center" id="btnsoldout" style="display:none !important">
+              <div class="product_count">
+                <!-- <span class="inumber-decrement"> <i class="ti-minus"></i></span> -->
+                <span>SOLD OUT</span>
+                <!-- <span class="number-increment"> <i class="ti-plus"></i></span> -->
+              </div>
               <!-- <a href="#" class="btn_3">add to cart</a> -->
               <!-- <a href="#" class="like_us"> <i class="ti-heart"></i> </a> -->
             </div>
@@ -249,7 +259,7 @@
         var data = detailproduct.find(dt => dt.id_category == kategori && dt.id_size == size && dt.id_color == color);
         var jumorder = document.getElementById('jumorder').value;
         var x = document.getElementById("divmaksqty");
-        if(parseInt(jumorder) > parseInt(data.qty))
+        if(parseInt(jumorder) > parseInt(data.qty) && data.qty != 0)
         {
             jumorder = data.qty;
             x.style.display = "block";
@@ -270,7 +280,8 @@
         document.getElementById('id_detail_produk').value = data.id_produk_detail;
         var jumtotal = parseInt(jumorder) * parseInt(data.price);
         document.getElementById('price').innerHTML = 'Rp.' + jumtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        document.getElementById('pricereal').value = jumtotal;
+        document.getElementById('total').value = jumtotal;
+        document.getElementById('priceori').value = data.price;
         document.getElementById('qty').innerHTML = data.qty;
         $("#jumorder").attr({
             "max" : data.qty
@@ -302,6 +313,17 @@
             data = detailproduct.filter(dt => dt.id_color == color);
         }
         console.log(data);
+        var x = document.getElementById('btncart')
+        var y = document.getElementById('btnsoldout')
+        if(data[0].qty == 0)
+        {
+          // console.log('asd');
+          x.style.setProperty("display", "none", "important");
+          y.style.setProperty("display", "flex", "important");
+        }else{
+          y.style.setProperty("display", "none", "important");
+          x.style.setProperty("display", "flex", "important");
+        }
         // var detailproduct = data;
         
         // detailproduct = JSON.parse(detailproduct);
@@ -384,26 +406,24 @@
             window.location.href = "<?php echo base_url()?>Account/Login";
         }else{
             var id_produk_detail = document.getElementById('id_detail_produk').value;
-            var qty = parseInt(document.getElementById('qty').innerHTML);
-            var pricereal = document.getElementById('pricereal').value;
+            var qty = parseInt(document.getElementById('jumorder').value);
+            var total = document.getElementById('total').value;
+            var realprice = document.getElementById('priceori').value;
 
             $.ajax({
                 type  : 'POST',
-                url   : '<?php echo base_url()?>WarnaAdmin/searchdatawarna',
-                data : {begin:begin},
-                success : function(data){
-                    var dt = JSON.parse(data);
-                    var html = '';
-                    var j=0;
-                    for(var i=0; i<dt.length; i++){
-                        ++j;
-                        html += '<tr>'+
-                        '<td>'+j+'</td>'+
-                        '<td>'+dt[i].color_name+'</td>'+
-                        '<td><button type="button" class="btn btn-icon btn-info waves-effect waves-classic" onclick="redirectya('+dt[i].id_color+')" style="padding: 4%;"><i aria-hidden="true" class="icon md-eye"></i></button></td>'+
-                        '</tr>';
+                url   : '<?php echo base_url()?>Home/addtocart',
+                data : {id_detail_produk:id_produk_detail,qty:qty,price:realprice,total:total},
+                success : function(response){
+                  console.log(response);
+                  var res = response;
+                    if(res.includes('success'))
+                    {
+                      window.location.reload();
+                    }else{
+                      alert("Upss... Sedang ada maintenance silahkan hubungi store via WA yang tertera pada contact");
                     }
-                    $('#show_data1').html(html);
+                    
                 }
 
             });

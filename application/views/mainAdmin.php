@@ -11,7 +11,7 @@
                 <i class="icon md-view-list grey-600 font-size-24 vertical-align-bottom mr-5"></i>Order Masuk Hari Ini
               </div>
               <br><br>
-              <span class="float-right grey-700 font-size-30"><?php echo $orderhariini?></span>
+              <span class="float-right grey-700 font-size-30"><?php echo $jumordermasuktoday?></span>
             </div>
             <div class="mb-20 grey-500" style="color: white !important">
               <i class="icon md-long-arrow-up green-500 font-size-16" style="color: white !important"></i>a
@@ -27,10 +27,10 @@
           <div class="card-block p-20 pt-10">
             <div class="clearfix">
               <div class="grey-800 float-left py-10">
-                <i class="icon md-flash grey-600 font-size-24 vertical-align-bottom mr-5"></i>Jumlah user sudah dinilai
+                <i class="icon md-flash grey-600 font-size-24 vertical-align-bottom mr-5"></i>Order membutuhkan konfirmasi
               </div>
               <br><br>
-              <span class="float-right grey-700 font-size-30"><?php echo '0'?></span>
+              <span class="float-right grey-700 font-size-30"><?php echo $jumorderneedconfirm?></span>
             </div>
             <div class="mb-20 grey-500" style="color: white !important">
               <i class="icon md-long-arrow-up green-500 font-size-16" style="color: white !important"></i>a

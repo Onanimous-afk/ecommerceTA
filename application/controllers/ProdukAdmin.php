@@ -165,8 +165,7 @@ class ProdukAdmin extends CI_Controller {
 		//$num_file = count($_FILES['DOC']['name']);
 		//  $image = $_FILES['InputFileDOC'];
 		// print_r($image);die();
-  		if (isset($_FILES['file']) && !empty($_FILES['file'])) {		 	
-
+  		if (isset($_FILES['file']) && !empty($_FILES['file'])) {
   			//$num_file = count($_FILES['file']['name']);
   			$filenamepertama = $_FILES['file']['name'];
 		 	//print_r($filenamepertama);die(); 
